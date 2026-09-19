@@ -18,3 +18,4 @@ StayMate is a local full-stack prototype for verified student PG housing. It inc
 ## Important
 
 This is a prototype, not a production system. KYC, verification, review moderation, payment, and My PGmate matching are presentation workflows or partial implementations and require secure external services before public use.
+
