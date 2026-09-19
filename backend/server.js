@@ -30,7 +30,7 @@ await pool.query(`CREATE TABLE IF NOT EXISTS auth_sessions (
 ) ENGINE=InnoDB`);
 
 app.use(express.json({ limit: '100kb' }));
-app.use(express.static(path.resolve(dirname, '..')));
+app.use(express.static(path.resolve(dirname, '..', 'frontend')));
 
 function passwordHash(password, salt = crypto.randomBytes(16).toString('hex')) {
   const derived = crypto.scryptSync(password, salt, 64).toString('hex');
@@ -208,7 +208,7 @@ app.post('/api/roommate-connections', async (req, res, next) => {
   } catch (error) { next(error); }
 });
 
-app.get('/{*splat}', (_req, res) => res.sendFile(path.resolve(dirname, '..', 'index.html')));
+app.get('/{*splat}', (_req, res) => res.sendFile(path.resolve(dirname, '..', 'frontend', 'index.html')));
 app.use((error, _req, res, _next) => { console.error(error); res.status(500).json({ error: 'Database request failed.' }); });
 
 app.listen(port, () => console.log(`StayMate API on http://localhost:${port}`));
