@@ -8,5 +8,7 @@ export async function bootstrapSchema(pool, backendDir) {
     .replace(/^CREATE DATABASE.*;\r?\n/m, '')
     .replace(/^USE staymate;\r?\n/m, '')
     .replace(/CREATE TABLE\s+(?!IF NOT EXISTS)/gi, 'CREATE TABLE IF NOT EXISTS ');
-  await pool.query(baseSchema);
+for (const statement of baseSchema.split(/;\s*(?:\r?\n|$)/)) {
+  const query = statement.trim();
+  if (query) await pool.query(query);
 }
