@@ -1,0 +1,15 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: staymate
+      MYSQL_USER: staymate_app
+      MYSQL_PASSWORD: change_this_to_a_long_password
+      MYSQL_ROOT_PASSWORD: change_this_root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../staymate-mysql-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+volumes:
+  mysql_data:
