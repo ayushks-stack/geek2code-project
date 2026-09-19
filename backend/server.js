@@ -4,7 +4,7 @@ import mysql from 'mysql2/promise';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
-
+import { bootstrapSchema } from './schema-bootstrap.js';
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -17,9 +17,10 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   waitForConnections: true,
   connectionLimit: 10,
+  multipleStatements: true,
   namedPlaceholders: true
 });
-
+await bootstrapSchema(pool, dirname);
 await pool.query(`CREATE TABLE IF NOT EXISTS auth_sessions (
   token_hash CHAR(64) PRIMARY KEY,
   user_id BIGINT UNSIGNED NOT NULL,
